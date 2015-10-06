@@ -1,0 +1,8 @@
+application {
+  name = "otto-employee-directory"
+  type = "node"
+
+  dependency {
+    source = "otto/mongodb"
+  }
+}
