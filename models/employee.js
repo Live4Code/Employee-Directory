@@ -55,6 +55,8 @@ EmployeeSchema.virtual('managerName').get(() => {
   return this.manager.firstName + ' ' + this.manager.lastName;
 }); */
 
+EmployeeSchema.index({'$**': 'text'});
+
 var Employee = mongoose.model('Employee', EmployeeSchema);
 
 export default Employee;

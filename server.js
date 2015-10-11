@@ -5,17 +5,22 @@ import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
 import {graphql} from 'graphql';
 import schema from './schema';
+import serve from 'koa-static';
+import mount from 'koa-mount';
+import Employee from './models/employee';
 
 let port = process.env.PORT || 3000;
 let routes = new Router();
 var app = koa();
 app.use(bodyParser());
 
+app.use(mount('/public', serve(__dirname+'/public')));
+
 // support nested query tring params
 qs(app);
 
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect('mongodb://localhost/graphql');
+  mongoose.connect('mongodb://mongo:27017/graphql');
 }
 
 routes.get('/data', function* () {
@@ -33,6 +38,24 @@ routes.get('/data', function* () {
   }
 
   this.body = resp;
+});
+
+routes.get('/api/employees', function* () {
+  console.log(this.query);
+  var q = this.query.q || undefined;
+  if (q) {
+    var employees = yield Employee.find({$text: {$search: q}}, {score: {$meta: 'textScore'}})
+      .sort({ score : { $meta : 'textScore' } });
+  } else {
+    var employees = yield Employee.find({});
+  }
+  var resp = {total : employees.length, employees: employees};
+  this.body = resp;
+});
+
+routes.get('/api/employees/:id', function* (){
+  var employee = yield Employee.findOne({id: this.params.id});
+  this.body = employee;
 });
 
 routes.post('/data', function* () {
