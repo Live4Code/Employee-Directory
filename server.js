@@ -41,11 +41,13 @@ routes.get('/data', function* () {
 });
 
 routes.get('/api/employees', function* () {
-  console.log(this.query);
   var q = this.query.q || undefined;
   if (q) {
-    var employees = yield Employee.find({$text: {$search: q}}, {score: {$meta: 'textScore'}})
-      .sort({ score : { $meta : 'textScore' } });
+    var allEmployees = yield Employee.find({});
+    var employees = allEmployees.filter((employee) => {
+      var searchKey = employee.firstName + ' ' + employee.lastName + employee.title;
+      return searchKey.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    });
   } else {
     var employees = yield Employee.find({});
   }
