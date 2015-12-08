@@ -19,8 +19,9 @@ app.use(mount('/public', serve(__dirname+'/public')));
 // support nested query tring params
 qs(app);
 
+let mongoUri = process.env.MONGO_URI || 'mongodb://mongo:27017/graphql';
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect('mongodb://mongo:27017/graphql');
+  mongoose.connect(mongoUri);
 }
 
 routes.get('/data', function* () {

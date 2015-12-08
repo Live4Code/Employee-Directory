@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import Employee from '../models/employee';
 
-mongoose.connect('mongodb://mongo:27017/graphql');
+let mongoUri = process.env.MONGO_URI || 'mongodb://mongo:27017/graphql';
+mongoose.connect(mongoUri);
 
 var employees = [
   {"id": 0, "firstName": "James", "lastName": "King", "reports": 4, "title": "President and CEO", "department": "Corporate", "mobilePhone": "617-000-0001", "officePhone": "781-000-0001", "email": "jking@fakemail.com", "city": "Boston, MA", "pic": "James_King.jpg", "twitterId": "@fakejking", "blog": "http://coenraets.org"},
