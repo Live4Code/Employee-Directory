@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import App from './components/App';
 import EmployeeList from './components/EmployeeList';
 import EmployeePage from './components/EmployeePage';
-//import AppHomeRoute from './routes/AppHomeRoute';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -13,14 +13,6 @@ import {Route, IndexRoute} from 'react-router';
 import {RelayRouter} from 'react-router-relay';
 
 const history = useRouterHistory(createHashHistory)({ queryKey: false });
-/*
-ReactDOM.render(
-  <Relay.RootContainer
-    Component={App}
-    route={new AppHomeRoute()}
-  />,
-  document.getElementById('root')
-); */
 
 const viewerQueries = {
   viewer: () => Relay.QL`query { viewer }`,

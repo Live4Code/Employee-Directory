@@ -63,7 +63,7 @@ export default  Relay.createContainer(EmployeePage, {
 
   fragments: {
     viewer: () => Relay.QL`
-      fragment on Viewer {
+      fragment on User {
         employee(id: $employeeId) {
           firstName,
           lastName,
